@@ -1,4 +1,5 @@
 import 'package:cheapnear/animations/bottomAnimation.dart';
+import 'package:cheapnear/model/category_model.dart';
 import 'package:cheapnear/model/services_model.dart';
 import 'package:cheapnear/screens/pages/service_detail.dart';
 import 'package:cheapnear/utils/constants.dart';
@@ -72,20 +73,23 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             WidgetAnimator(
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FlatButton(
-                        color:primary,
-                        onPressed: (){
-                          setState(() {
-                            isService  = !isService;
-                          });
-                        }, child:Text(isService == false ? "Services" : "Maps",style: TextStyle(color:Colors.white),))
-                  ],
-                ),
+              Container(
+                height: 50,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.length,
+                    itemBuilder: (context,index){
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InputChip(
+                           backgroundColor: primary,
+                            onPressed: (){
+
+                            },
+                            label:Text(categories[index].name,style: TextStyle(color: Colors.white),),
+                        ),
+                      );
+                    }),
               )
             ),
             isService == false? WidgetAnimator(
