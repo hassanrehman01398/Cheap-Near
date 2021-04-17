@@ -36,16 +36,53 @@ dependencies:
   google_maps_flutter: ^1.0.6
   geocoder: ^0.2.1
   image_picker: ^0.6.7+14
+    # empty_widget:
+    # flutter_advanced_networkimage:
+  cached_network_image: ^2.2.0+1
+# flutter_native_splash: ^0.1.9
+  firebase_auth: ^0.18.3
+  firebase_database:
+  firebase_analytics:
+  cloud_firestore:
+  firebase_storage:
+  uuid: ^2.0.0
+  http:
+  package_info: ^0.4.1
+  firebase_messaging: ^6.0.13
+  google_sign_in: "^4.5.1"
+  intl: ^0.16.1
+  flutter_dropdown: ^0.0.8
+  advance_pdf_viewer: any
+  flutter_carousel_slider: ^1.0.5
+  url_launcher:
+  share: ^0.6.3
+  google_fonts: ^0.3.9
+  firebase_remote_config: ^0.3.0+3
+  sign_button: ^1.0.1
+  animated_text_kit: ^3.1.2
+  carousel_pro: ^0.0.13
+  badges: ^1.2.0
+  flutter_rating_bar: ^3.2.0
+  rating_bar: any
+  flushbar: ^1.10.4
+  sweetalert: ^0.0.1
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/logo.png"
+  image_path_android: "assets/logo.png"
 flutter:
 
   # The following line ensures that the Material Icons font is

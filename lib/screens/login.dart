@@ -1,8 +1,12 @@
 import 'package:cheapnear/animations/bottomAnimation.dart';
+import 'package:cheapnear/helper/utility.dart';
 import 'package:cheapnear/screens/home.dart';
 import 'package:cheapnear/screens/signup.dart';
+import 'package:cheapnear/states/authState.dart';
 import 'package:cheapnear/utils/constants.dart';
+import 'package:cheapnear/widgets/newWidget/customLoader.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -11,9 +15,22 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool show = true;
+
+  TextEditingController _email=TextEditingController(),_password=TextEditingController();
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  CustomLoader loader;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    loader = CustomLoader();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: ListView(
         children: [
           SizedBox(height: MediaQuery.of(context).size.height * 0.15,),
@@ -30,6 +47,7 @@ class _LoginState extends State<Login> {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: TextField(
+                    controller: _email,
                     cursorColor: primary,
                     style: TextStyle(
                       color: primary
@@ -59,6 +77,7 @@ class _LoginState extends State<Login> {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: TextField(
+                    controller: _password,
                     obscureText: show,
                     cursorColor: primary,
                     style: TextStyle(
@@ -100,8 +119,10 @@ class _LoginState extends State<Login> {
                     child: Text("Login",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w900),),
                   ),
                   onPressed: (){
-                   Navigator.pop(context);
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+                    _emailLogin();
+                   //Navigator.pop(context);
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                   }),
             ),
           ),
@@ -123,5 +144,36 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+
+  void _emailLogin() {
+    var state = Provider.of<AuthState>(context, listen: false);
+    if (state.isbusy) {
+      return;
+    }
+    loader.showLoader(context);
+    var isValid = validateCredentials(
+        _scaffoldKey, _email.text, _password.text);
+    if (isValid) {
+      state
+          .signIn(_email.text, _password.text,
+          scaffoldKey: _scaffoldKey)
+          .then((status) {
+        if (state.user != null) {
+          loader.hideLoader();
+
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              HomeScreen()), (Route<dynamic> route) => false);
+
+          // widget.loginCallback();
+        } else {
+          cprint('Unable to login', errorIn: '_emailLoginButton');
+          loader.hideLoader();
+        }
+      });
+    } else {
+      loader.hideLoader();
+    }
   }
 }

@@ -1,20 +1,48 @@
-class ServicesModel{
+import 'package:cheapnear/model/user.dart';
+
+class ServicesModel {
   String id;
   String image;
   String name;
   String price;
-  String locations;
+  String lat;
+  String long;
   String type;
   String description;
+  String createdAt;
+  String location;
+  UserModel user;
+  ServicesModel( this.image, this.name, this.price, this.lat,this.long,
+      this.type, this.description, this.user,this.location);
 
-  ServicesModel(this.id,this.image,this.name,this.price,this.locations,this.type,this.description);
+  toJson() {
+    return {
+      "id": id,
+      "description": description,
+      "image": image,
+      "user": user == null ? null : user.toJson(),
+      "name": name,
+      "type": type,
+      "price": price,
+      "createdAt": createdAt,
+      "lat": lat,
+      "long": long,
+      "location":location
+    };
+  }
+
+  ServicesModel.fromJson(Map<dynamic, dynamic> map) {
+    id = map['id'];
+    description = map['description'];
+    price = map["price"];
+    type = map["type"];
+    image = map['image'];
+    createdAt = map['createdAt'];
+    name = map["name"];
+    user = UserModel.fromJson(map['user']);
+    createdAt = map["createdAt"];
+    lat = map["lat"].toString();
+    long = map["long"].toString();
+    location=map["location"];
+  }
 }
-
-List<ServicesModel> services = [
-  ServicesModel("1","https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8c2VydmljZXN8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", "Packing", "200 \$", "Karachi Pakistan", "Work", "A very good service"),
-  ServicesModel("2","https://marketing-insider.eu/wp-content/uploads/2015/06/Service-Characteristics-of-Services.jpg", "Packing", "200 \$", "Karachi Pakistan", "Work", "A very good service"),
-  ServicesModel("3","https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8c2VydmljZXN8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", "Packing", "200 \$", "Karachi Pakistan", "Work", "A very good service"),
-  ServicesModel("4","https://marketing-insider.eu/wp-content/uploads/2015/06/Service-Characteristics-of-Services.jpg", "Packing", "200 \$", "Karachi Pakistan", "Work", "A very good service"),
-  ServicesModel("5","https://marketing-insider.eu/wp-content/uploads/2015/06/Service-Characteristics-of-Services.jpg", "Packing", "200 \$", "Karachi Pakistan", "Work", "A very good service"),
-  ServicesModel("6","https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8c2VydmljZXN8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", "Packing", "200 \$", "Karachi Pakistan", "Work", "A very good service"),
-];
