@@ -24,6 +24,7 @@ class _ServicesPageState extends State<ServicesPage> {
     return Consumer<Servicestate>(builder: (context, state, child)
     {
       final List<ServicesModel> list = state.getmyServicesList(authstate.userModel);
+
     return GridView.builder(
       primary: false,
       itemCount: list==null?0:list.length,
@@ -84,7 +85,7 @@ class _ServicesPageState extends State<ServicesPage> {
                   },
                 ),
                 title: Text(
-                  list[index].price,
+                  list[index].name,
                   textAlign: TextAlign.center,
                 ),
               ),

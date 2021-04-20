@@ -1,6 +1,7 @@
 import 'package:cheapnear/helper/constant.dart';
 import 'package:cheapnear/helper/theme.dart';
 import 'package:cheapnear/helper/utility.dart';
+import 'package:cheapnear/message/chatScreenPage.dart';
 import 'package:cheapnear/model/chatModel.dart';
 import 'package:cheapnear/model/user.dart';
 import 'package:cheapnear/states/authState.dart';
@@ -81,7 +82,9 @@ class _ChatListPageState extends State<ChatListPage> {
                 .where((x) => x.userId == model.userId)
                 .first;
           }
-          Navigator.pushNamed(context, '/ChatScreenPage');
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreenPage(
+          )));
+        //  Navigator.pushNamed(context, '/ChatScreenPage');
         },
         leading: RippleButton(
           onPressed: () {
@@ -136,9 +139,11 @@ class _ChatListPageState extends State<ChatListPage> {
     );
   }
 
-  void onSettingIconPressed() {
-    Navigator.pushNamed(context, '/DirectMessagesPage');
-  }
+  // void onSettingIconPressed() {
+  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => (
+  //   // )));
+  // //  Navigator.pushNamed(context, '/DirectMessagesPage');
+  // }
 
   String getLastMessage(String message) {
     if (message != null && message.isNotEmpty) {

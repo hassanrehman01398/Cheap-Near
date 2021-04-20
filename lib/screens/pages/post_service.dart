@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cheapnear/screens/home.dart';
+import 'package:cheapnear/screens/pages/home_page.dart';
 import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:http/http.dart' as http;
@@ -325,7 +327,8 @@ class _PostServicesPageState extends State<PostServicesPage> {
         type.text,
         description.text,
         commentedUser,
-    location.text);
+    location.text,
+    DateTime.now().toString());
     return service;
   }
 
@@ -368,7 +371,8 @@ class _PostServicesPageState extends State<PostServicesPage> {
       kScreenloader.hideLoader();
 
       /// Navigate back to home page
-      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(
+      )));
 
       /// Checks for username in tweet description
       /// If foud sends notification to all tagged user

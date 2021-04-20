@@ -1,3 +1,11 @@
+import 'dart:async';
+
+import 'dart:typed_data';
+
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 String dummyProfilePic = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6TaCLCqU4K0ieF27ayjl51NmitWaJAh_X0r1rLX4gMvOe0MDaYw&s';
 String appFont = 'HelveticaNeuea';
 List<String> dummyProfilePicList = [
@@ -13,7 +21,8 @@ List<String> dummyProfilePicList = [
 List<String> service_types=[
   "Salon",
   "Spa",
-  "Nail"
+  "Nail",
+  "Barber"
 ];
 String mapapikey="AIzaSyCj4FDxRHoIy91uBXhz_NqGpksKDB-cECw";
 class AppIcon{
@@ -64,4 +73,37 @@ class AppIcon{
   static final int locationPin = 0xf031;
   static final int edit = 0xf112;
 
+}
+Future<Uint8List> getBytesFromCanvas(int width, int height, urlAsset) async {
+  final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+  final Paint paint = Paint()..color = Colors.transparent;
+  final Radius radius = Radius.circular(20.0);
+  canvas.drawRRect(
+      RRect.fromRectAndCorners(
+        Rect.fromLTWH(0.0, 0.0, width.toDouble(), height.toDouble()),
+        topLeft: radius,
+        topRight: radius,
+        bottomLeft: radius,
+        bottomRight: radius,
+      ),
+      paint);
+
+  final ByteData datai = await rootBundle.load(urlAsset);
+
+  var imaged = await loadImage(new Uint8List.view(datai.buffer));
+
+  canvas.drawImage(imaged, new Offset(0, 0), new Paint());
+
+  final img = await pictureRecorder.endRecording().toImage(width, height);
+  final data = await img.toByteData(format: ui.ImageByteFormat.png);
+  return data.buffer.asUint8List();
+}
+
+Future<ui.Image> loadImage(List<int> img) async {
+  final Completer<ui.Image> completer = new Completer();
+  ui.decodeImageFromList(img, (ui.Image img) {
+    return completer.complete(img);
+  });
+  return completer.future;
 }

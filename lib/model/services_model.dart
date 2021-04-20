@@ -13,7 +13,7 @@ class ServicesModel {
   String location;
   UserModel user;
   ServicesModel( this.image, this.name, this.price, this.lat,this.long,
-      this.type, this.description, this.user,this.location);
+      this.type, this.description, this.user,this.location,this.createdAt);
 
   toJson() {
     return {
@@ -27,7 +27,8 @@ class ServicesModel {
       "createdAt": createdAt,
       "lat": lat,
       "long": long,
-      "location":location
+      "location":location,
+      "createdAt":createdAt
     };
   }
 
@@ -37,7 +38,7 @@ class ServicesModel {
     price = map["price"];
     type = map["type"];
     image = map['image'];
-    createdAt = map['createdAt'];
+    createdAt = map['createdAt']==null?"2020-03-2":map["createdAt"];
     name = map["name"];
     user = UserModel.fromJson(map['user']);
     createdAt = map["createdAt"];

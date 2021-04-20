@@ -67,13 +67,16 @@ class Servicestate extends AppState {
   }
 
   List<ServicesModel> getmyServicesList(UserModel userModel) {
+
     if (userModel == null) {
       return null;
     }
     List<ServicesModel> list;
 
-    if (!isBusy && _services != null && _services.isNotEmpty) {
+    if ( _services != null && _services.isNotEmpty) {
+
       list = _services.where((x) {
+
         /// If Tweet is a comment then no need to add it in tweet list
 
         if (x.id == null) {
@@ -120,7 +123,6 @@ class Servicestate extends AppState {
 
           if (map != null) {
             map.forEach((key, value) {
-          print(value);
               var model = ServicesModel.fromJson(value);
               model.id = key;
 
@@ -129,8 +131,8 @@ class Servicestate extends AppState {
 
             /// Sort Tweet by time
             /// It helps to display newest Tweet first.
-            _services.sort((x, y) => DateTime.parse(x.createdAt)
-                .compareTo(DateTime.parse(y.createdAt)));
+            // _services.sort((x, y) => DateTime.parse(x.createdAt)
+            //     .compareTo(DateTime.parse(y.createdAt)));
           }
         } else {
           _services = null;

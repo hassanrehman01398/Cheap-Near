@@ -1,5 +1,7 @@
 import 'package:cheapnear/animations/bottomAnimation.dart';
+import 'package:cheapnear/message/chatScreenPage.dart';
 import 'package:cheapnear/model/services_model.dart';
+import 'package:cheapnear/states/chats/chatState.dart';
 import 'package:cheapnear/utils/constants.dart';
 import 'package:cheapnear/utils/theme.dart';
 import 'package:flutter/material.dart';
@@ -45,22 +47,24 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   SizedBox(height: 10,),
                   WidgetAnimator(Text(widget.service.name,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
                   SizedBox(height: 10,),
-                  WidgetAnimator(Text(widget.service.lat,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                  WidgetAnimator(Text("Location: "+widget.service.location,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),textAlign: TextAlign.center,)),
                   SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      WidgetAnimator(Text(widget.service.price,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
-                      WidgetAnimator(Text(widget.service.type,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                      WidgetAnimator(Text("Price: "+widget.service.price,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                      WidgetAnimator(Text("Type: "+widget.service.type,style: TextStyle(color: notifier.darkTheme ? primary:Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
                     ],
                   ),
                   SizedBox(height: 10,),
                   WidgetAnimator(
                     Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Container(
-                        width: 400,
-                        child: Text(widget.service.description,style: TextStyle(fontSize: 16,color: notifier.darkTheme ? primary:Colors.white),textAlign: TextAlign.center,),
+                      child: Center(
+                        child: Container(
+                          width: 400,
+                          child: Text("Description: "+widget.service.description,style: TextStyle(fontSize: 16,color: notifier.darkTheme ? primary:Colors.white),textAlign: TextAlign.center,),
+                        ),
                       ),
                     ),
                   ),
@@ -76,17 +80,15 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                     borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
                                 color: Colors.red,
-                                onPressed: (){}, icon: Icon(Icons.chat,color: Colors.white,), label: Text("Start Chat",style: TextStyle(color: Colors.white),)),
+                                onPressed: (){
+                                  final chatState = Provider.of<ChatState>(context, listen: false);
+                                  chatState.setChatUser = widget.service.user;
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreenPage(
+                                  )));
+                                }, icon: Icon(Icons.chat,color: Colors.white,), label: Text("Start Chat",style: TextStyle(color: Colors.white),)),
                           ),
                           SizedBox(width: 20,),
-                          WidgetAnimator(
-                            FlatButton.icon(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                ),
-                                color: Colors.green,
-                                onPressed: (){}, icon: Icon(Icons.favorite_border,color: Colors.white,), label: Text("Add To Favourite",style: TextStyle(color: Colors.white),)),
-                          ),
+
                         ],
                       ),
                     ),

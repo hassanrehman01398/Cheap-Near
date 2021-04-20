@@ -335,7 +335,8 @@ price.text=widget.service.price;
         type.text,
         description.text,
         commentedUser,
-    location.text);
+    location.text,
+        DateTime.now().toString());
     return service;
   }
 
