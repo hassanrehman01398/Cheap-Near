@@ -20,7 +20,7 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   bool show = true;
-  TextEditingController name=TextEditingController(),email=TextEditingController(),password=TextEditingController();
+  TextEditingController name=TextEditingController(),email=TextEditingController(),password=TextEditingController(),contactno=TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   CustomLoader loader;
@@ -138,6 +138,37 @@ class _SignupState extends State<Signup> {
               ),
             ),
           ),
+          SizedBox(height: 10,),
+          WidgetAnimator(
+            Padding(
+              padding: const EdgeInsets.only(left:20.0,right: 20.0),
+              child: Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20))
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextField(
+                    controller: contactno,
+                    cursorColor: primary,
+                    style: TextStyle(
+                        color: primary
+                    ),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.phone),
+                        hintText: "Enter your mobile no",
+                        labelStyle: TextStyle(
+                            color: primary
+                        ),
+
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 20,),
           WidgetAnimator(
             Padding(
@@ -150,7 +181,7 @@ class _SignupState extends State<Signup> {
                   color: primary,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("SignUp",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w900),),
+                    child: Text("Signup",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w900),),
                   ),
                   onPressed: (){
                     _submitForm();
@@ -192,7 +223,7 @@ class _SignupState extends State<Signup> {
     if (email.text == null ||
         email.text.isEmpty ||
         password.text == null ||
-        password.text.isEmpty ||name.text==null||name.text.isEmpty) {
+        password.text.isEmpty ||name.text==null||name.text.isEmpty ||contactno.text==null||contactno.text.isEmpty) {
       customSnackBar(_scaffoldKey, 'Please fill form carefully');
       return;
     }
@@ -212,6 +243,7 @@ class _SignupState extends State<Signup> {
       location: 'Somewhere in universe',
       profilePic: dummyProfilePicList[randomNumber],
       isVerified: false,
+      contact: contactno.text
     );
     state
         .signUp(

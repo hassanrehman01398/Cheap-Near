@@ -177,6 +177,7 @@ class _PostServicesPageState extends State<PostServicesPage> {
                     showUnderline: false,
 
                     items: service_types,
+
                     // initialValue: user_customer_remainder_date.text,
                     hint: Text(
                       "Select Service Type",
@@ -328,7 +329,10 @@ class _PostServicesPageState extends State<PostServicesPage> {
         description.text,
         commentedUser,
     location.text,
-    DateTime.now().toString());
+
+    DateTime.now().toString(),
+
+        authState.userModel.sellerId??"");
     return service;
   }
 

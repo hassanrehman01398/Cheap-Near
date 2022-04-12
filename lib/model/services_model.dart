@@ -11,9 +11,10 @@ class ServicesModel {
   String description;
   String createdAt;
   String location;
+  String sellerId;
   UserModel user;
   ServicesModel( this.image, this.name, this.price, this.lat,this.long,
-      this.type, this.description, this.user,this.location,this.createdAt);
+      this.type, this.description, this.user,this.location,this.createdAt,this.sellerId);
 
   toJson() {
     return {
@@ -28,7 +29,8 @@ class ServicesModel {
       "lat": lat,
       "long": long,
       "location":location,
-      "createdAt":createdAt
+      "createdAt":createdAt,
+      "sellerId":sellerId
     };
   }
 
@@ -45,5 +47,6 @@ class ServicesModel {
     lat = map["lat"].toString();
     long = map["long"].toString();
     location=map["location"];
+    sellerId=map["sellerId"]??"";
   }
 }

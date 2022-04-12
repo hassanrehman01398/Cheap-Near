@@ -1,5 +1,6 @@
 import 'package:cheapnear/message/chatListPage.dart';
 import 'package:cheapnear/profile/profilePage.dart';
+import 'package:cheapnear/profile/profilepagenew.dart';
 import 'package:cheapnear/screens/login.dart';
 import 'package:cheapnear/screens/pages/all_services.dart';
 import 'package:cheapnear/screens/pages/home_page.dart';
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       {'page': ChatListPage(scaffoldKey: _scaffoldKey), 'title': 'Chats'},
       {'page': PostServicesPage(), 'title': 'Post'},
       {'page': ServicesPage(), 'title': 'All Services'},
-      {'page': ProfilePage(), 'title': 'Profile'}
+      {'page': ProfilePageNew(), 'title': 'Profile'}
     ];
 
   }
@@ -90,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: primary,
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.all(5.0),
@@ -100,37 +102,39 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         title: Text("Cheapnear",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w900),),
         actions: [
-          GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text("Cheapnear"),
-                    content: Text("Do you want to logout?"),
-                    actions: [
-                      FlatButton(
-                        child: Text("Yes"),
-                        onPressed: () {
-                          authstate.logoutCallback();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => Login()),
-                                  (Route<dynamic> route) => false);
-                          // exit(0);
-                        },
-                      ),
-                      FlatButton(
-                        child: Text("No"),
-                        onPressed: () {
-                          setState(() {
-                            Navigator.pop(context);
-                          });
-                        },
-                      ),
-                    ],
+          IconButton(icon: Icon(Icons.exit_to_app,color: Colors.white,), onPressed: (){
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Cheapnear"),
+                content: Text("Do you want to logout?"),
+                actions: [
+                  FlatButton(
+                    child: Text("Yes"),
+                    color: Colors.green,
+                    onPressed: () {
+                      authstate.logoutCallback();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => Login()),
+                              (Route<dynamic> route) => false);
+                      // exit(0);
+                    },
                   ),
-                );
-              },
-              child: IconButton(icon: Icon(Icons.exit_to_app,color: Colors.white,), onPressed: (){}))
+                  FlatButton(
+                    child: Text("No"),
+
+                    color: Colors.red,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            );
+
+          })
         ],
       ),
 
@@ -147,27 +151,27 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             backgroundColor: primary,
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            label: ('Home'),
           ),
           BottomNavigationBarItem(
             backgroundColor: primary,
             icon: Icon(Icons.chat),
-            title: Text('Chats'),
+            label: "Chats",
           ),
           BottomNavigationBarItem(
             backgroundColor: primary,
             icon: Icon(Icons.post_add),
-            title: Text('Post Service'),
+            label: ('Post Service'),
           ),
           BottomNavigationBarItem(
             backgroundColor: primary,
             icon: Icon(Icons.design_services),
-            title: Text('Services'),
+            label: ('Services'),
           ),
           BottomNavigationBarItem(
             backgroundColor: primary,
             icon: Icon(Icons.person),
-            title: Text('Profile'),
+            label: ('Profile'),
           ),
         ],
       ),

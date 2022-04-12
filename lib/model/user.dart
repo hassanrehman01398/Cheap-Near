@@ -11,6 +11,7 @@ class UserModel {
   String location;
   String dob;
   String createdAt;
+  String sellerId;
   bool isVerified;
   int followers;
   int following;
@@ -36,6 +37,7 @@ class UserModel {
     this.isVerified,
     this.fcmToken,
     this.followersList,
+    this.sellerId
   });
 
   UserModel.fromJson(Map<dynamic, dynamic> map) {
@@ -59,6 +61,7 @@ class UserModel {
     following = map['following'];
     userName = map['userName'];
     webSite = map['webSite'];
+    sellerId=map["sellerId"]??"";
     fcmToken = map['fcmToken'];
     isVerified = map['isVerified'] ?? false;
     if (map['followerList'] != null) {
@@ -96,7 +99,8 @@ class UserModel {
       'isVerified': isVerified ?? false,
       'fcmToken': fcmToken,
       'followerList': followersList,
-      'followingList': followingList
+      'followingList': followingList,
+      "sellerId":sellerId
     };
   }
 

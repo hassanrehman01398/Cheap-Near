@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:badges/badges.dart';
 import 'package:cheapnear/animations/bottomAnimation.dart';
 import 'package:cheapnear/helper/constant.dart';
 import 'package:cheapnear/model/services_model.dart';
@@ -6,6 +7,7 @@ import 'package:cheapnear/screens/pages/service_detail.dart';
 import 'package:cheapnear/states/authState.dart';
 import 'package:cheapnear/states/servicesState.dart';
 import 'package:cheapnear/utils/constants.dart';
+import 'package:cheapnear/widgets/customWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   getlocationAllServices() async {
 
-    var servicestate = Provider.of<Servicestate>(context);
+    var servicestate = Provider.of<Servicestate>(context,listen: false);
     List<ServicesModel> services=servicestate.servicelist;
 
     Position position = await Geolocator.getCurrentPosition(
@@ -79,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                           service: services[i],
                         )));
               },
-              icon: BitmapDescriptor.fromBytes(markerIcond),
+              icon: BitmapDescriptor.defaultMarkerWithHue(120),
             ),
           );
         });
@@ -112,8 +114,8 @@ class _HomePageState extends State<HomePage> {
     });
     for(int i=0;i<services.length;i++) {
 
-      final Uint8List markerIcond =
-      await getBytesFromCanvas(100, 100, "assets/services/${services[i].type.toLowerCase()}.png");
+      // final Uint8List markerIcond =
+      // await getBytesFromCanvas(100, 100, "assets/services/${services[i].type.toLowerCase()}.png");
 
       setState(() {
         _markers.add(
@@ -133,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                         service: services[i],
                       )));
             },
-            icon: BitmapDescriptor.fromBytes(markerIcond),
+            icon: BitmapDescriptor.defaultMarkerWithHue(120),
           ),
         );
       });
@@ -151,6 +153,7 @@ class _HomePageState extends State<HomePage> {
 
 
     return Scaffold(
+      backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(children: [
       WidgetAnimator(
@@ -206,43 +209,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      // WidgetAnimator(
-      //   Padding(
-      //     padding: const EdgeInsets.all(18.0),
-      //     child: FlatButton(
-      //         shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.all(Radius.circular(15))),
-      //         color: primary,
-      //         onPressed: () {
-      //           setState(() {
-      //             isService = !isService;
-      //           });
-      //           if(isService){
-      //            setState(() {
-      //              list = servicestate.servicelist;
-      //              list1 = list;
-      //
-      //            });
-      //
-      //           }
-      //           else{
-      //
-      //           }
-      //           // _submitButton();
-      //           //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      //         },
-      //         child: Padding(
-      //           padding: const EdgeInsets.all(10.0),
-      //           child: Text(
-      //             "MapBox",
-      //             style: TextStyle(
-      //               color: Colors.white,
-      //               fontSize: 20,
-      //             ),
-      //           ),
-      //         )),
-      //   ),
-      // ),
       WidgetAnimator(Container(
         height: 50,
         child: ListView.builder(
@@ -288,68 +254,139 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             )
-          : WidgetAnimator(Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              //child: Consumer<Servicestate>(builder: (context, state, child) {
+          : WidgetAnimator(ListView.builder(
+            primary: false,
+            shrinkWrap: true,
+            itemCount: list == null ? 0 : list.length,
+            itemBuilder: (cyx, index) {
+              return WidgetAnimator(Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ServiceCard(list[index]),
+              ));
+            },
+          ))
+    ])));
+  }
 
-              child: GridView.builder(
-                primary: false,
-                itemCount: list == null ? 0 : list.length,
-                itemBuilder: (cyx, index) {
-                  return WidgetAnimator(Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: GridTile(
-                        child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ServiceDetail(
-                                            service: list[index],
-                                          )));
-                            },
-                            child: Hero(
-                              tag: list[index].id,
-                              child: FadeInImage(
-                                placeholder:
-                                    AssetImage("assets/placeholder-image.png"),
-                                image: NetworkImage(list[index].image),
-                                fit: BoxFit.cover,
+  Widget ServiceCard(ServicesModel service) {
+    return Material(
+      elevation: 5,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                            width: fullWidth(context) * 0.20,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                width: 1,
                               ),
-                            )),
-                        footer: GridTileBar(
-                          backgroundColor: Colors.black87,
-                          leading: IconButton(
-                              icon: Icon(
-                                Icons.favorite_border,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {}),
-                          trailing: IconButton(
-                            icon: Icon(
-                              Icons.chat,
-                              color: Theme.of(context).accentColor,
+                              image: DecorationImage(
+                                  image: customAdvanceNetworkImage(
+                                      service.image ?? ""),
+                                  fit: BoxFit.fill),
                             ),
-                            onPressed: () {},
                           ),
-                          title: Text(
-                            list[index].name,
-                            textAlign: TextAlign.center,
+                          onTap: () {},
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                service.name,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                service.description,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                                softWrap: true,
+                              )
+                            ],
                           ),
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                children: [
+                  Text(
+                    service.price,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    child: Container(
+                      height: 40.0,
+                      width: fullWidth(context) * 0.27,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                                primary,
+                                primary
+                              ],
+                              begin: Alignment.bottomLeft,
+                              end: Alignment.topRight),
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Center(
+                        child: Text(
+                          "View",
                         ),
                       ),
                     ),
-                  ));
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
+                    onTap: () {
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ServiceDetail(service: service,)));
+
+                    },
+                  )
+                ],
               ),
-              //})
-            ))
-    ])));
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                child: Row(
+                  children: [
+                    Text("1 Bought"),
+                    Spacer(),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border,color: Colors.red,))
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

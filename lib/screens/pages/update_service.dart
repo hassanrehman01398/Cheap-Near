@@ -336,7 +336,9 @@ price.text=widget.service.price;
         description.text,
         commentedUser,
     location.text,
-        DateTime.now().toString());
+        DateTime.now().toString(),
+      authState.userModel.sellerId??""
+    );
     return service;
   }
 

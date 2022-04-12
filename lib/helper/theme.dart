@@ -63,7 +63,7 @@ class AppTheme{
       iconTheme: IconThemeData(color: TwitterColor.dodgetBlue,),
       elevation: 0,
       textTheme:  TextTheme(
-        title: TextStyle(
+        subtitle1: TextStyle(
           color: Colors.black,
           fontSize: 26,
           fontStyle: FontStyle.normal),

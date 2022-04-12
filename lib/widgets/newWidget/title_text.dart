@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TitleText extends StatelessWidget {
   final String text;
@@ -21,11 +20,11 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.muli(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        color: color,
-      ),
+      // style: GoogleFonts.muli(
+      //   fontSize: fontSize,
+      //   fontWeight: fontWeight,
+      //   color: color,
+      // ),
       textAlign: textAlign,
       overflow: overflow,
     );
